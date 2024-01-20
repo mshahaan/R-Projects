@@ -1,0 +1,40 @@
+stats = read.csv(file = file.choose(), header = T, sep = ",", 
+                stringsAsFactors = F)
+
+#Hypothesis 1 (P-Test / Z-score)
+mean1 = mean(stats[stats$Year<2000,]$AverageCelsiusTemperature, na.rm = T)
+var1 = var(stats[stats$Year<2000,]$AverageCelsiusTemperature, na.rm = T)
+stddev1 = sd(stats[stats$Year<2000,]$AverageCelsiusTemperature, na.rm = T)
+mean2 = mean(stats[stats$Year>=2000,]$AverageCelsiusTemperature, na.rm = T)
+var2 = var(stats[stats$Year>=2000,]$AverageCelsiusTemperature, na.rm = T)
+stddev2 = sd(stats[stats$Year>=2000,]$AverageCelsiusTemperature, na.rm = T)
+num1 = length(stats[stats$Year<2000,]$AverageCelsiusTemperature)
+num2 = length(stats[stats$Year>=2000,]$AverageCelsiusTemperature)
+
+z = (mean2 - mean1)/sqrt((stddev2^2/num2)+(stddev1^2/num1))
+p = 1 - pnorm(z)
+
+#Hypothesis 2 (Bonferroni Correction)
+meanmin1 = mean(stats[stats$Year<2000,]$MinCelsiusTemp, na.rm = T)
+varmin1 = var(stats[stats$Year<2000,]$MinCelsiusTemp, na.rm = T)
+stddevmin1 = sd(stats[stats$Year<2000,]$MinCelsiusTemp, na.rm = T)
+meanmin2 = mean(stats[stats$Year>=2000,]$MinCelsiusTemp, na.rm = T)
+varmin2 = var(stats[stats$Year>=2000,]$MinCelsiusTemp, na.rm = T)
+stddevmin2 = sd(stats[stats$Year>=2000,]$MinCelsiusTemp, na.rm = T)
+nummin1 = length(stats[stats$Year<2000,]$MinCelsiusTemp)
+nummin2 = length(stats[stats$Year>=2000,]$MinCelsiusTemp)
+
+zmin = (meanmin2 - meanmin1)/sqrt((stddevmin2^2/nummin2)+(stddevmin1^2/nummin1))
+pmin = 1 - pnorm(zmin)
+
+meanmax1 = mean(stats[stats$Year<2000,]$MaxCelsiusTemp, na.rm = T)
+varmax1 = var(stats[stats$Year<2000,]$MaxCelsiusTemp, na.rm = T)
+stddevmax1 = sd(stats[stats$Year<2000,]$MaxCelsiusTemp, na.rm = T)
+meanmax2 = mean(stats[stats$Year>=2000,]$MaxCelsiusTemp, na.rm = T)
+varmax2 = var(stats[stats$Year>=2000,]$MaxCelsiusTemp, na.rm = T)
+stddevmax2 = sd(stats[stats$Year>=2000,]$MaxCelsiusTemp, na.rm = T)
+nummax1 = length(stats[stats$Year<2000,]$MaxCelsiusTemp)
+nummax2 = length(stats[stats$Year>=2000,]$MaxCelsiusTemp)
+
+zmax = (meanmax2 - meanmax1)/sqrt((stddevmax2^2/nummax2)+(stddevmax1^2/nummax1))
+pmax = 1 - pnorm(zmax)
